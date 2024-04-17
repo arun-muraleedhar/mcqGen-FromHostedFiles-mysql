@@ -1,0 +1,2 @@
+[2024-04-16 09:22:27,042] 257 root - ERROR - Error processing file: name 'uuid4' is not defined
+[2024-04-16 09:22:33,641] 340 root - ERROR - Question dictionary: {'correct': 'b', 'mcq': 'What percentage of financial assistance is provided to young entrepreneurs under the ESS?', 'options': {'a': '15%', 'b': '25%', 'c': '30%', 'd': '40%'}}

@@ -1,0 +1,2 @@
+[2024-04-12 16:00:34,561] 209 root - ERROR - Error processing file: name 'uuid4' is not defined
+[2024-04-12 16:00:38,817] 292 root - ERROR - Question dictionary: {'correct': 'c', 'mcq': 'What is the maximum total eligible assistance for an enterprise under the Entrepreneur Support Scheme?', 'options': {'a': 'Rs 20 lakh', 'b': 'Rs 30 lakh', 'c': 'Rs 40 lakh', 'd': 'Rs 50 lakh'}}

@@ -1,0 +1,2 @@
+[2024-04-12 14:55:12,077] 216 root - ERROR - Error processing file: name 'uuid4' is not defined
+[2024-04-12 14:55:40,088] 299 root - ERROR - Question dictionary: {'correct': 'c', 'mcq': 'Which of the following is NOT an essential element of the batting stance?', 'options': {'a': 'Feet slightly apart', 'b': 'Weight evenly distributed on balls of feet', 'c': 'Head forward of body', 'd': 'Eyes level and square to line of delivery'}}

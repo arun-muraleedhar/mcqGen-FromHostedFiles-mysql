@@ -1,0 +1,1 @@
+[2024-04-16 13:14:55,650] 318 root - ERROR - Error processing file: the JSON object must be str, bytes or bytearray, not dict

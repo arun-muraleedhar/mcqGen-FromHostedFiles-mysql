@@ -1,0 +1,19 @@
+[2024-04-17 10:05:42,858] 284 root - ERROR - Error processing file: name 'uuid4' is not defined
+[2024-04-17 10:05:48,674] 113 root - ERROR - Invalid MCQ data structure for key: correct
+[2024-04-17 10:05:48,674] 113 root - ERROR - Invalid MCQ data structure for key: mcq
+[2024-04-17 10:05:48,675] 113 root - ERROR - Invalid MCQ data structure for key: options
+[2024-04-17 10:05:48,676] 113 root - ERROR - Invalid MCQ data structure for key: correct
+[2024-04-17 10:05:48,676] 113 root - ERROR - Invalid MCQ data structure for key: mcq
+[2024-04-17 10:05:48,677] 113 root - ERROR - Invalid MCQ data structure for key: options
+[2024-04-17 10:05:48,689] 113 root - ERROR - Invalid MCQ data structure for key: correct
+[2024-04-17 10:05:48,689] 113 root - ERROR - Invalid MCQ data structure for key: mcq
+[2024-04-17 10:05:48,689] 113 root - ERROR - Invalid MCQ data structure for key: options
+[2024-04-17 10:08:35,119] 113 root - ERROR - Invalid MCQ data structure for key: correct
+[2024-04-17 10:08:35,119] 113 root - ERROR - Invalid MCQ data structure for key: mcq
+[2024-04-17 10:08:35,119] 113 root - ERROR - Invalid MCQ data structure for key: options
+[2024-04-17 10:08:35,121] 113 root - ERROR - Invalid MCQ data structure for key: correct
+[2024-04-17 10:08:35,122] 113 root - ERROR - Invalid MCQ data structure for key: mcq
+[2024-04-17 10:08:35,122] 113 root - ERROR - Invalid MCQ data structure for key: options
+[2024-04-17 10:08:35,123] 113 root - ERROR - Invalid MCQ data structure for key: correct
+[2024-04-17 10:08:35,124] 113 root - ERROR - Invalid MCQ data structure for key: mcq
+[2024-04-17 10:08:35,124] 113 root - ERROR - Invalid MCQ data structure for key: options

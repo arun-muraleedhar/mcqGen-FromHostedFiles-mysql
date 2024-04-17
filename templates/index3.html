@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+</head>
+<body>
+    <h1>Real-Time MCQ Creator</h1>
+    <div class="container">
+        <div class="form-container">
+            <form action="/" method="post">
+                <label for="pdf_file">Select PDF File:</label>
+                <select name="pdf_file" id="pdf_file" required>
+                    <option value="">Select PDF File</option>
+                    {% for pdf in pdf_files %}
+                    <option value="{{ pdf.file_name }}">{{ pdf.file_name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="mcq_count">No. of MCQs:</label>
+                <input type="number" name="mcq_count" min="3" max="50" required>
+                <label for="subject">Insert Topic:</label>
+                <input type="text" name="subject" maxlength="35" required>
+                <label for="tone">Complexity Level of Questions:</label>
+                <select name="tone" id="tone" required>
+                    <option value="">Select Complexity Level</option>
+                    <option value="simple">Simple</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <button type="submit">Create MCQs</button>
+            </form>
+        </div>
+
+        <div class="mcq-container">
+            {% if quiz_dict %}
+            <div class="mcq-display">
+                <form action="/add_to_database" method="post">
+                    {% for key, value in quiz_dict.items() %}
+                    <div class="mcq-question">
+                        <input type="checkbox" name="selected_questions" value='{{ value | tojson | safe }}'>
+                        <strong>Question {{ key }}:</strong> {{ value['mcq'] }}<br>
+                        <div class="mcq-options">
+                            {% for option, option_value in value['options'].items() %}
+                            {{ option }}. {{ option_value }}<br>
+                            {% endfor %}
+                        </div>
+                        <p><strong>Correct Answer:</strong> {{ value['correct'] }}</p>
+                        <hr>
+                    </div>
+                    {% endfor %}
+                    <button type="submit">Add Selected Questions to Database</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+
+    <script>
+        // Fetch the list of PDF files from the server
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/pdf_files')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(pdf_files => {
+                    const pdfFileSelect = document.getElementById('pdf_file');
+                    pdf_files.forEach(pdf => {
+                        const option = document.createElement('option');
+                        option.value = pdf.file_name;
+                        option.text = pdf.file_name;
+                        pdfFileSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching PDF files:', error);
+                });
+        });
+    </script>
+</body>
+</html>

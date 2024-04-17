@@ -1,0 +1,3 @@
+[2024-04-16 11:13:32,216] 283 root - ERROR - Error processing file: name 'uuid4' is not defined
+[2024-04-16 11:13:38,402] 366 root - ERROR - Question dictionary: {'correct': 'b', 'mcq': 'When playing a ball that is just short of a length and missing the leg stump, which stroke should be used?', 'options': {'a': 'Forward Leg Glance', 'b': 'Backward Leg Glance', 'c': 'Off Drive', 'd': 'Square Cut'}}
+[2024-04-16 11:14:42,586] 366 root - ERROR - Question dictionary: {'correct': 'b', 'mcq': 'When playing a ball that is just short of a length and missing the leg stump, which stroke should be used?', 'options': {'a': 'Forward Leg Glance', 'b': 'Backward Leg Glance', 'c': 'Off Drive', 'd': 'Square Cut'}}

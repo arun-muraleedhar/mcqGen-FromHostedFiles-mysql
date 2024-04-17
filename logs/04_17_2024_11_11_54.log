@@ -1,0 +1,10 @@
+[2024-04-17 11:47:16,430] 228 root - ERROR - Error processing file: name 'uuid4' is not defined
+[2024-04-17 11:47:21,869] 58 root - ERROR - Invalid MCQ data structure for key: correct
+[2024-04-17 11:47:21,869] 58 root - ERROR - Invalid MCQ data structure for key: mcq
+[2024-04-17 11:47:21,869] 58 root - ERROR - Invalid MCQ data structure for key: options
+[2024-04-17 11:47:21,870] 58 root - ERROR - Invalid MCQ data structure for key: correct
+[2024-04-17 11:47:21,870] 58 root - ERROR - Invalid MCQ data structure for key: mcq
+[2024-04-17 11:47:21,871] 58 root - ERROR - Invalid MCQ data structure for key: options
+[2024-04-17 11:47:21,875] 58 root - ERROR - Invalid MCQ data structure for key: correct
+[2024-04-17 11:47:21,875] 58 root - ERROR - Invalid MCQ data structure for key: mcq
+[2024-04-17 11:47:21,875] 58 root - ERROR - Invalid MCQ data structure for key: options

@@ -1,0 +1,2 @@
+[2024-04-16 13:24:34,599] 318 root - ERROR - Error processing file: name 'uuid4' is not defined
+[2024-04-16 13:24:43,429] 401 root - ERROR - Question dictionary: {'correct': 'd', 'mcq': 'Which of the following is the correct grip for batting?', 'options': {'a': 'Hands close together towards top of handle', 'b': 'Fingers and thumbs of both hands around handle', 'c': "V's formed by thumb and forefinger are in line approximately half way between splice and outside edge of bat", 'd': 'All of the above'}}

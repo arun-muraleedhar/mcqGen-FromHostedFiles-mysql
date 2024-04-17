@@ -1,0 +1,4 @@
+[2024-04-16 10:54:09,905] 283 root - ERROR - Error processing file: name 'uuid4' is not defined
+[2024-04-16 10:54:16,205] 366 root - ERROR - Question dictionary: {'correct': 'a', 'mcq': 'What is the recommended step-by-step approach to bowling?', 'options': {'a': 'Coil position, run up, bound', 'b': 'Grip, action, follow-through', 'c': 'Run up, coil position, action', 'd': 'Action, grip, follow-through'}}
+[2024-04-16 10:56:01,665] 283 root - ERROR - Error processing file: name 'uuid4' is not defined
+[2024-04-16 10:56:06,130] 366 root - ERROR - Question dictionary: {'correct': 'b', 'mcq': 'Which of the following is NOT a priority sector under the ESS?', 'options': {'a': 'Rubber-based industries', 'b': 'Service Enterprises', 'c': 'Biotechnology-based industries', 'd': 'Agro-based industries'}}
