@@ -10,6 +10,7 @@ from typing import Dict
 import os
 import requests
 import logging
+import random
 
 
 # Suppress favicon logs
@@ -22,7 +23,7 @@ DB_CONFIG = {
    'user': 'root',
    'password': 'DFSmt@103',
    'host': 'localhost',
-   'database': 'files_db',
+   'database': 'mydatabase',
    'raise_on_warnings': True
 }
 
@@ -40,57 +41,61 @@ def close_db_connection(connection):
    if connection:
        connection.close()
 
-def insert_mcq(connection, quiz_dict):
+# def insert_mcq(connection, question_dict):
+#     if connection:
+#         cursor = connection.cursor()
+#         question = question_dict["mcq"]
+#         correct_answer = question_dict["correct"]
+#         options = question_dict["options"]
+
+#         # Extract choices with key and choice
+#         choice_keys = list(options.keys())
+#         if len(choice_keys) < 4:
+#             logging.error(f"Insufficient choices for MCQ: {question_dict}")
+#             return
+
+#         choice1 = f"{choice_keys[0]}: {options.get(choice_keys[0], '')}"
+#         choice2 = f"{choice_keys[1]}: {options.get(choice_keys[1], '')}"
+#         choice3 = f"{choice_keys[2]}: {options.get(choice_keys[2], '')}"
+#         choice4 = f"{choice_keys[3]}: {options.get(choice_keys[3], '')}"
+
+#         # SQL query to insert data into the table
+#         sql = "INSERT INTO mcqtable (question, choice1, choice2, choice3, choice4, correct_answer) VALUES (%s, %s, %s, %s, %s, %s)"
+#         try:
+#             cursor.execute(sql, (question, choice1, choice2, choice3, choice4, correct_answer))
+#             connection.commit()
+#             logging.info(f"MCQ inserted successfully: {question_dict}")
+#         except mysql.connector.Error as e:
+#             logging.error(f"Error inserting MCQ: {e}")
+#             connection.rollback()
+
+#         cursor.close()
+
+def insert_mcq(connection, question_dict):
     if connection:
         cursor = connection.cursor()
+        question = question_dict["mcq"]
+        correct_answer = question_dict["options"][question_dict["correct"]]
+        options = list(question_dict["options"].values())
 
-        # Validate the structure of quiz_dict
-        if not isinstance(quiz_dict, dict):
-            logging.error("Invalid data structure for quiz_dict. Expected a dictionary.")
-            return
+        # Shuffle the options to randomize the order
+        random.shuffle(options)
 
-        for key, value in quiz_dict.items():
-            # Validate the structure of each MCQ
-            if not isinstance(value, dict) or \
-               "mcq" not in value or \
-               "options" not in value or \
-               "correct" not in value:
-                logging.error(f"Invalid MCQ data structure for key: {key}")
-                continue
+        # Assign the options to the respective columns
+        choice1, choice2, choice3, choice4 = options
 
-            question = value["mcq"]
-            choices = value["options"]
-            correct_answer = value["correct"]
+        # SQL query to insert data into the table
+        sql = "INSERT INTO mcqtable (question, choice1, choice2, choice3, choice4, correct_answer) VALUES (%s, %s, %s, %s, %s, %s)"
+        try:
+            cursor.execute(sql, (question, choice1, choice2, choice3, choice4, correct_answer))
+            connection.commit()
+            logging.info(f"MCQ inserted successfully: {question_dict}")
+        except mysql.connector.Error as e:
+            logging.error(f"Error inserting MCQ: {e}")
+            connection.rollback()
 
-            # Extract choices with key and choice
-            choice_keys = list(choices.keys())
-            if len(choice_keys) < 4:
-                logging.error(f"Insufficient choices for MCQ key: {key}")
-                continue
-
-            choice1 = f"{choice_keys[0]}: {choices[choice_keys[0]]}"
-            choice2 = f"{choice_keys[1]}: {choices[choice_keys[1]]}"
-            choice3 = f"{choice_keys[2]}: {choices[choice_keys[2]]}"
-            choice4 = f"{choice_keys[3]}: {choices[choice_keys[3]]}"
-
-            # Find the correct answer text
-            for choice_key, choice_text in choices.items():
-                if choice_key == correct_answer:
-                    correct_answer_text = choice_text
-                    break
-            else:
-                logging.error(f"Correct answer key not found in options for MCQ key: {key}")
-                continue
-
-            # SQL query to insert data into the table
-            sql = "INSERT INTO mcqs (question, choice1, choice2, choice3, choice4, correct_answer) VALUES (%s, %s, %s, %s, %s, %s)"
-
-            # Execute the SQL query
-            cursor.execute(sql, (question, choice1, choice2, choice3, choice4, correct_answer_text))
-
-        # Commit the transaction
-        connection.commit()
         cursor.close()
+
 
 # Rest of your Flask routes and functions
 with open("Response.json", 'r') as file:
@@ -214,13 +219,7 @@ def home():
 
                    
 
-                   print(quiz_dict)    # Print the whole dictionary
-                   # Print the choices content (assuming choices is within quiz_dict)
-                #    choices_list = []
-                #    for mcq in quiz_dict.get('mcqs', []):  # Handle cases where 'mcqs' key might not exist
-                #         choices_list.append(mcq['options'])
-                #    print(f"Choices content (from all MCQs): {choices_list}")
-                
+                   #print(quiz_dict)    # Print the whole dictionary
 
 
                    # Generate a unique document ID
@@ -238,7 +237,6 @@ def home():
                logging.error(f"Error processing file: {e}")
 
    return render_template('index.html', quiz_dict=quiz_dict, error=error, success=success, pdf_files=pdf_files) 
-
 
 
 @app.route('/add_to_database', methods=['POST'])
@@ -267,19 +265,25 @@ def add_to_database():
                 if connection is None:
                     error = "Error connecting to the database."
                 else:
-                    # Insert the valid questions into the 'mcqs' table
+                    logging.info("Connected to the database successfully.")
+                    # Insert the valid questions into the'mcqs' table
                     for question_dict in valid_questions:
+                        #print(question_dict)
                         try:
+                            #print("Inserted MCQ:", question_dict)
+                            logging.info(f"Inserting MCQ: {question_dict}")
                             insert_mcq(connection, question_dict)
                         except mysql.connector.Error as e:
                             error = f"Error adding MCQs to the database: {e}"
+                            logging.error(f"Error inserting MCQ: {question_dict} - {e}")
                             break  # Exit loop on database insertion error
                         except Exception as e:
                             error = f"Unexpected error while inserting MCQs: {e}"
-                            logging.error(f"Question dictionary: {question_dict}")  # Log the dictionary content
+                            logging.error(f"Error inserting MCQ: {question_dict} - {e}")
                             break  # Exit loop on unexpected error
                     else:
                         success = "MCQs added to the database successfully."
+                        logging.info("MCQs added to the database successfully.")
 
         except Exception as e:  # Catch any unexpected errors
             logging.error(f"Unexpected error: {e}")
@@ -289,6 +293,57 @@ def add_to_database():
             close_db_connection(connection)
 
     return render_template('index.html', success=success, error=error)
+# @app.route('/add_to_database', methods=['POST'])
+# def add_to_database():
+#     error = None
+#     success = None
+#     selected_questions = request.form.getlist('selected_questions')
+
+#     if not selected_questions:
+#         error = "No questions selected."
+#     else:
+#         try:
+#             # Validate if all selected_questions are valid JSON strings
+#             valid_questions = []
+#             for question_str in selected_questions:
+#                 try:
+#                     question_dict = json.loads(question_str)
+#                     valid_questions.append(question_dict)
+#                 except json.JSONDecodeError:
+#                     error = "Invalid question format in some selections."
+#                     break  # Exit loop if any invalid JSON is found
+            
+#             if error is None:  # Only proceed if all questions are valid JSON
+#                 # Connect to the database
+#                 connection = get_db_connection()
+#                 if connection is None:
+#                     error = "Error connecting to the database."
+#                 else:
+#                     # Insert the valid questions into the 'mcqs' table
+#                     for question_dict in valid_questions:
+                        
+#                         try:
+                            
+#                             insert_mcq(connection, question_dict)
+#                         except mysql.connector.Error as e:
+#                             error = f"Error adding MCQs to the database: {e}"
+#                             break  # Exit loop on database insertion error
+#                         except Exception as e:
+#                             error = f"Unexpected error while inserting MCQs: {e}"
+#                             logging.error(f"Question dictionary: {question_dict}")  # Log the dictionary content
+#                             break  # Exit loop on unexpected error
+#                     else:
+#                         success = "MCQs added to the database successfully."
+                        
+
+#         except Exception as e:  # Catch any unexpected errors
+#             logging.error(f"Unexpected error: {e}")
+#             error = "An error occurred while processing MCQs."
+
+#         finally:
+#             close_db_connection(connection)
+
+#     return render_template('index.html', success=success, error=error)
 # Run the Flask application
 if __name__ == '__main__':
    app.run(debug=True)
